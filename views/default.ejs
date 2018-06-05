@@ -1,0 +1,20 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+ <meta charset="utf-8">  
+ <title>實作EJS</title>  
+</head>  
+<body>  
+<h1><%= title %></h1>  
+<p>製作: Kai實驗室</p>  
+<ul>  
+<% for(var i=0; i<show.length; i++) {%>  
+ <li>
+   <p><%= show[i].que %></p>
+   <p>翻譯：<%= show[i].trans %></p>
+   <p>答案：<%= show[i].ans %> <%= show[i].transAns %></p>
+</li>  
+<% } %>  
+</ul>  
+</body>  
+</html>  
