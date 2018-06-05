@@ -3,7 +3,7 @@
 在目錄下執行node index.js
 
 網址：
-http://localhost:3000/?url=http://www.englishvocabularyexercises.com/AWL/AWLSublist09-Ex1a.htm
+http://localhost:3030/?url=http://www.englishvocabularyexercises.com/AWL/AWLSublist09-Ex1a.htm
 
 即可得到全翻譯+詳解
 
