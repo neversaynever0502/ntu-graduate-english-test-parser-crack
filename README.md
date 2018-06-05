@@ -1,5 +1,10 @@
 # 台大研究生線上英文破解
 
+DEMO:
+
+http://ec2-35-182-109-4.ca-central-1.compute.amazonaws.com:3030/?url=http://www.englishvocabularyexercises.com/AWL/AWLSublist09-Ex1a.htm
+
+
 在目錄下執行node index.js
 
 網址：
