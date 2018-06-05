@@ -13,6 +13,7 @@
 
 線上網址：
 http://ec2-35-182-109-4.ca-central-1.compute.amazonaws.com:3030/?url=http://www.englishvocabularyexercises.com/AWL/AWLSublist09-Ex1a.htm
+
 （url=後面帶上「線上字彙測驗的網址」）
 
 即可得到全翻譯+詳解
@@ -24,6 +25,7 @@ git clone後
 
 本地網址：
 http://localhost:3030/?url=http://www.englishvocabularyexercises.com/AWL/AWLSublist09-Ex1a.htm
+
 （url=後面帶上「線上字彙測驗的網址」）
 
 即可得到全翻譯+詳解
