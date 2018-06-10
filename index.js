@@ -35,12 +35,13 @@ app.get('/', async function(reqq, ress){
     var ans = {}
     var final=[]
     $('#MainDiv #QForm table tbody tr .RightItem select option').each(function(i, elem) {
-        // console.log($(this).options.value)
+        // console.log('kkk::',$(this).options.value)
         
         if(i>0&&i<11){
           // console.log('第'+i+'題，填下'+)
-          ans[i]=Number($(this).val())+1
-          // console.log($(this).val());
+          // ans[i]=Number($(this).val())+1
+          ans[Number($(this).val())+1]=i
+          // console.log('apple',$(this).val());
         }
         // weathers.push($(this).text().split('\n'))
       })
@@ -56,13 +57,14 @@ app.get('/', async function(reqq, ress){
     
   
     await Promise.all(weathers.map(async(weather,i)=>{
-      // console.log(weather[0])
-      // console.log(weather[ans[i+1]])
+      console.log(weather[0])
+      console.log(weather[ans[i+1]]) 
       await translate(weather[0], { to: 'zh-cn' }).then(async(result)=>{
         await translate(weather[ans[i+1]], { to: 'zh-cn' }).then((result2)=>{
           var que = weather[0].slice(2)
           var replaceQQ = que.replace('???', "");
-          final.push({que:replaceQQ,ans:weather[ans[i+1]],trans:result.text,transAns:result2.text})
+          var replaceTrans = result.text.replace('来自“简明英汉词典”',"")
+          final.push({que:replaceQQ,ans:weather[ans[i+1]],trans:replaceTrans,transAns:result2.text})
         })
       })
       
