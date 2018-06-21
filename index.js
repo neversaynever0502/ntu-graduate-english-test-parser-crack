@@ -60,8 +60,8 @@ app.get('/', async function(reqq, ress){
       console.log(weather[0])
       console.log(weather[ans[i+1]]) 
       try{
-        await translate(weather[0], { to: 'zh-cn' }).then(async(result)=>{
-          await translate(weather[ans[i+1]], { to: 'zh-cn' }).then((result2)=>{
+        await translate(weather[0], { to: 'zh-tw' }).then(async(result)=>{
+          await translate(weather[ans[i+1]], { to: 'zh-tw' }).then((result2)=>{
             var que = weather[0].slice(2)
             var replaceQQ = que.replace('???', "");
             var replaceTrans = result.text.replace('来自“简明英汉词典”',"")
