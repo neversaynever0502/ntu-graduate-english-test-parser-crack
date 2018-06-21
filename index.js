@@ -59,14 +59,21 @@ app.get('/', async function(reqq, ress){
     await Promise.all(weathers.map(async(weather,i)=>{
       console.log(weather[0])
       console.log(weather[ans[i+1]]) 
-      await translate(weather[0], { to: 'zh-cn' }).then(async(result)=>{
-        await translate(weather[ans[i+1]], { to: 'zh-cn' }).then((result2)=>{
-          var que = weather[0].slice(2)
-          var replaceQQ = que.replace('???', "");
-          var replaceTrans = result.text.replace('来自“简明英汉词典”',"")
-          final.push({que:replaceQQ,ans:weather[ans[i+1]],trans:replaceTrans,transAns:result2.text})
+      try{
+        await translate(weather[0], { to: 'zh-cn' }).then(async(result)=>{
+          await translate(weather[ans[i+1]], { to: 'zh-cn' }).then((result2)=>{
+            var que = weather[0].slice(2)
+            var replaceQQ = que.replace('???', "");
+            var replaceTrans = result.text.replace('来自“简明英汉词典”',"")
+            final.push({que:replaceQQ,ans:weather[ans[i+1]],trans:replaceTrans,transAns:result2.text})
+          })
         })
-      })
+      }catch(e){
+        console.log(e)
+        var que = weather[0].slice(2)
+        var replaceQQ = que.replace('???', "");
+        final.push({que:replaceQQ,ans:weather[ans[i+1]]})
+      }
       
     }))
     
