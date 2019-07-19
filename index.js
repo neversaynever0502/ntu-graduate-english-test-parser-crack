@@ -27,67 +27,76 @@ app.get('/', async function(reqq, ress){
 
   //指定 /views/idex.ejs
   const url = reqq.query.url
-  await request(url, async(err, res, body) => {
-    // console.log(body)
-    // 把 body 放進 cheerio 準備分析
-    const $ = cheerio.load(body)
-    let weathers = []
-    var ans = {}
-    var final=[]
-    $('#MainDiv #QForm table tbody tr .RightItem select option').each(function(i, elem) {
-        // console.log('kkk::',$(this).options.value)
+
+  if (url){
+    try{
+      await request(url, async(err, res, body) => {
+        // console.log(body)
+        // 把 body 放進 cheerio 準備分析
+        const $ = cheerio.load(body)
+        let weathers = []
+        var ans = {}
+        var final=[]
+        $('#MainDiv #QForm table tbody tr .RightItem select option').each(function(i, elem) {
+            // console.log('kkk::',$(this).options.value)
+            
+            if(i>0&&i<11){
+              // console.log('第'+i+'題，填下'+)
+              // ans[i]=Number($(this).val())+1
+              ans[Number($(this).val())+1]=i
+              // console.log('apple',$(this).val());
+            }
+            // weathers.push($(this).text().split('\n'))
+          })
+      
+        console.log(ans)
+        $('#MainDiv #QForm table tbody tr').each(function(i, elem) {
+          // console.log($(this).options.value)
+          // console.log($(this).text())
+          weathers.push($(this).text().split('\n'))
+          // console.log(ans[i+1])
+        })
+        // console.log(weathers)
         
-        if(i>0&&i<11){
-          // console.log('第'+i+'題，填下'+)
-          // ans[i]=Number($(this).val())+1
-          ans[Number($(this).val())+1]=i
-          // console.log('apple',$(this).val());
-        }
-        // weathers.push($(this).text().split('\n'))
-      })
-  
-    console.log(ans)
-    $('#MainDiv #QForm table tbody tr').each(function(i, elem) {
-      // console.log($(this).options.value)
-      // console.log($(this).text())
-      weathers.push($(this).text().split('\n'))
-      // console.log(ans[i+1])
-    })
-    // console.log(weathers)
-    
-  
-    await Promise.all(weathers.map(async(weather,i)=>{
-      console.log(weather[0])
-      console.log(weather[ans[i+1]]) 
-      try{
-        await translate(weather[0], { to: 'zh-tw' }).then(async(result)=>{
-          await translate(weather[ans[i+1]], { to: 'zh-tw' }).then((result2)=>{
+      
+        await Promise.all(weathers.map(async(weather,i)=>{
+          console.log(weather[0])
+          console.log(weather[ans[i+1]]) 
+          try{
+            await translate(weather[0], { to: 'zh-tw' }).then(async(result)=>{
+              await translate(weather[ans[i+1]], { to: 'zh-tw' }).then((result2)=>{
+                var que = weather[0].slice(2)
+                var replaceQQ = que.replace('???', "");
+                var replaceTrans = result.text.replace('来自“简明英汉词典”',"")
+                final.push({que:replaceQQ,ans:weather[ans[i+1]],trans:replaceTrans,transAns:result2.text})
+              })
+            })
+          }catch(e){
+            console.log(e)
             var que = weather[0].slice(2)
             var replaceQQ = que.replace('???', "");
-            var replaceTrans = result.text.replace('来自“简明英汉词典”',"")
-            final.push({que:replaceQQ,ans:weather[ans[i+1]],trans:replaceTrans,transAns:result2.text})
-          })
-        })
-      }catch(e){
-        console.log(e)
-        var que = weather[0].slice(2)
-        var replaceQQ = que.replace('???', "");
-        final.push({que:replaceQQ,ans:weather[ans[i+1]]})
-      }
-      
-    }))
-    
-    // console.log(final)
-    ress.render('default',{title:'研究生線上英文字彙破解',show:final});
-    
-    
+            final.push({que:replaceQQ,ans:weather[ans[i+1]]})
+          }
+          
+        }))
+        
+        // console.log(final)
+        ress.render('default',{title:'研究生線上英文字彙破解',show:final});
+        
+        
 
 
-  })
+      })
+    }catch(e){
+      ress.send('網址有誤，請重新輸入正確的網址')
+    }
+  }else{
+    ress.send('請在網址後面加上?url=，例如/?url=http://www.englishvocabularyexercises.com/AWL/AWLSublist09-Ex1a.htm')
+  }
 });
 
-var server = app.listen(3030, function() {  
-  console.log('Listening on port 3030');  
+var server = app.listen(3333, function() {  
+  console.log('Listening on port 3333');  
  });   
 
 
